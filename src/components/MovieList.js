@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { getMovies, addMovie, removeMovie } from '../api';
 import { ListGroup, Button, FormControl, Form } from 'react-bootstrap';
+import { useAuth0 } from "@auth0/auth0-react";
 
 function MovieList({ onMoviesChange }) {
   const [movies, setMovies] = useState([]);
   const [newMovie, setNewMovie] = useState('');
   const [selectedMovies, setSelectedMovies] = useState([]); // State for selected movies
+  const { user, isAuthenticated } = useAuth0();
+  
 
   useEffect(() => {
-    getMovies().then((response) => {
+    const userEmail = user.email;
+    getMovies(userEmail).then((response) => {
       setMovies(response.data);
       onMoviesChange(response.data); // Call onMoviesChange with the updated movies
     });
-  }, []);
+  }, [isAuthenticated]);
 
 
   const handleAddMovie = () => {
     const newMovieObj = { title: newMovie };
-    addMovie(newMovieObj).then((response) => {
+    const postObject = {title: newMovie, email: user.email}
+    addMovie(postObject).then((response) => {
       const updatedMovies = [...movies, newMovieObj];
       setMovies(updatedMovies);
       onMoviesChange(updatedMovies);
@@ -85,13 +90,13 @@ function MovieList({ onMoviesChange }) {
       </Button>
 
       <div className="mt-3">
-        <h5>Selected Movies:</h5>
-        <ul>
+        {/* <h5>Selected Movies:</h5> */}
+  
           {selectedMovies.map((id) => {
             const movie = movies.find((movie) => movie.id === id);
-            return <li key={id}>{movie?.title}</li>;
+            // return <li key={id}>{movie?.title}</li>;
           })}
-        </ul>
+        
       </div>
     </div>
   );

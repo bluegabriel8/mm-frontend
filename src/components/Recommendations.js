@@ -10,6 +10,7 @@ function Recommendations({ movies }) {
         console.log(response.data.recommended_movies)
       setRecommendations(response.data.recommended_movies);
     });
+    console.log(movies)
   };
 
   return (
