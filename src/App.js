@@ -10,6 +10,7 @@ function App() {
     <Container>
       <h1 className="my-4">Movie Recommendation App</h1>
       <MovieList onMoviesChange={setSelectedMovies} />
+      {console.log(selectedMovies)}
       <Recommendations movies={selectedMovies} />
     </Container>
   );
