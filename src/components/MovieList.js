@@ -8,14 +8,15 @@ function MovieList({ onMoviesChange }) {
 
   useEffect(() => {
     getMovies().then((response) => setMovies(response.data));
-    console.log(movies);
+    console.log(movies)
   }, []);
 
   const handleAddMovie = () => {
-    addMovie({ title: newMovie }).then((response) => {
-      setMovies([...movies, response.data]);
+    const newMovieObj = {title: newMovie }; // Create a new movie object
+    addMovie(newMovieObj).then((response) => {
+      setMovies([...movies, newMovieObj]);
+      onMoviesChange([...movies, newMovieObj]);
       setNewMovie('');
-      onMoviesChange([...movies, response.data]);
     });
   };
 
@@ -30,10 +31,15 @@ function MovieList({ onMoviesChange }) {
   return (
     <div>
       <ListGroup>
-        {movies.map((movie) => (
-          <ListGroup.Item key={movie[0]}>
-            {movie[1]}
-            <Button variant="danger" size="sm" className="float-right" onClick={() => handleRemoveMovie(movie[1])}>
+        {movies.map(({ id, title }) => (
+          <ListGroup.Item key={id}>
+            {title}
+            <Button 
+              variant="danger" 
+              size="sm" 
+              className="float-right" 
+              onClick={() => handleRemoveMovie(id)}
+            >
               Remove
             </Button>
           </ListGroup.Item>
