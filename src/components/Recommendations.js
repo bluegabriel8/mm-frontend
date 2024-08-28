@@ -7,6 +7,7 @@ function Recommendations({ movies }) {
 
   const handleGetRecommendations = () => {
     getRecommendations(movies.map((movie) => movie.title)).then((response) => {
+        console.log(response.data.recommended_movies)
       setRecommendations(response.data.recommended_movies);
     });
   };
@@ -17,6 +18,7 @@ function Recommendations({ movies }) {
         Get Recommendations
       </Button>
       <Row>
+        {console.log(recommendations)}
         {recommendations.map((movie, index) => (
           <Col key={index} md={4}>
             <Card>
