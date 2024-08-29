@@ -80,7 +80,7 @@ function MovieList({ onMoviesChange }) {
 
   return (
       <div>
-        <div style={{marginBottom: "20px", gap: "10px"}} className="d-flex flex-wrap" >
+        <div style={{gap: "10px"}} className="d-flex flex-wrap" >
           {movies.map(({ id, title }) => (
           <div 
             key={id} 
@@ -104,16 +104,22 @@ function MovieList({ onMoviesChange }) {
         </div>
         ))}
       </div>
+      <div style={{marginTop: "20px", marginRight: "auto", marginLeft: "auto" ,width: "80%", backgroundColor: "#eeeeee", borderRadius: "2%", paddingTop: "20px"}}>
       <FormControl
         type="text"
-        placeholder="Add a movie"
+        placeholder="What have you seen recently?"
         value={newMovie}
-        style={{width: "50%", margin: "auto"}}
+        style={{width: "80%", margin: "auto"}}
         onChange={(e) => setNewMovie(e.target.value)}
       />
+      <div style={{textAlign: "center"}}>
       <Button variant="secondary"  style={{margin: "auto", border:"none", backgroundColor: "#aeaeae"}} onClick={handleAddMovie} className="mt-2">
         Add Movie
       </Button>
+      </div>
+      
+      </div>
+      
 
       <div className="mt-3">
         {/* <h5>Selected Movies:</h5> */}

@@ -12,17 +12,24 @@ function App() {
   return (
     
    <>
+     <div style={{position:"fixed", right:"10px", top:"5px"}}>
+        <p>Welcome, {user.name}!</p>
+        <button onClick={() => logout()}>
+            Log Out
+        </button>
+      </div>
        <h1 className="my-4" style={{textAlign: "center"}}>Movie Masters</h1>
+      
       {error && <div>Oops... {error.message}</div>}
       {!error && isLoading && <div>Loading...</div>}
       {isAuthenticated ? (
         <Container> 
+          
+          
           <h4>Movies</h4>
           <MovieList onMoviesChange={setSelectedMovies} />
           <Recommendations movies={selectedMovies} />
-          <button onClick={() => logout()}>
-                Log Out
-            </button>
+          
           </Container>           
             
       ) : (
