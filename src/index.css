@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.movie-item.selected {
+  background-color: #aeaeae; /* Darker color for selected items */
+  color: white;
+}
+
+.movie-item {
+  transition: background-color 0.3s ease;
+}
+

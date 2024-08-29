@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getMovies, addMovie, removeMovie } from '../api';
 import { ListGroup, Button, FormControl, Form } from 'react-bootstrap';
 import { useAuth0 } from "@auth0/auth0-react";
+import "../index.css"
 
 function MovieList({ onMoviesChange }) {
   const [movies, setMovies] = useState([]);
@@ -19,6 +20,27 @@ function MovieList({ onMoviesChange }) {
   }, [isAuthenticated]);
 
 
+  const isSelected = (title) => selectedMovies.includes(title);
+
+  const toggleSelectMovie = (title) => {
+    setSelectedMovies((prevSelectedMovies) => {
+        const updatedSelectedMovies = prevSelectedMovies.includes(title)
+          ? prevSelectedMovies.filter((movieId) => movieId !== title)
+          : [...prevSelectedMovies, title];
+  
+        // Update the titles of the selected movies and pass them to onMoviesChange
+        const selectedMovieTitles = updatedSelectedMovies.map((title) => {
+          const movie = movies.find((movie) => movie.title === title);
+          return movie;
+        }).filter(Boolean);
+  
+        onMoviesChange(selectedMovieTitles); // Call with selected movie titles
+  
+        return updatedSelectedMovies;
+    });
+  };
+
+
   const handleAddMovie = () => {
     const newMovieObj = { title: newMovie };
     const postObject = {title: newMovie, email: user.email}
@@ -30,62 +52,66 @@ function MovieList({ onMoviesChange }) {
     });
   };
 
-  const handleRemoveMovie = (id) => {
-    removeMovie(id).then(() => {
-      const updatedMovies = movies.filter((movie) => movie.id !== id);
+  const handleRemoveMovie = (title) => {
+    removeMovie(title, user.email).then(() => {
+      const updatedMovies = movies.filter((movie) => movie.title !== title);
       setMovies(updatedMovies);
       onMoviesChange(updatedMovies);
     });
   };
 
-  const handleSelectMovie = (id) => {
-    setSelectedMovies((prevSelectedMovies) => {
-        const updatedSelectedMovies = prevSelectedMovies.includes(id)
-          ? prevSelectedMovies.filter((movieId) => movieId !== id)
-          : [...prevSelectedMovies, id];
+  // const handleSelectMovie = (id) => {
+  //   setSelectedMovies((prevSelectedMovies) => {
+  //       const updatedSelectedMovies = prevSelectedMovies.includes(id)
+  //         ? prevSelectedMovies.filter((movieId) => movieId !== id)
+  //         : [...prevSelectedMovies, id];
   
-        // Update the titles of the selected movies and pass them to onMoviesChange
-        const selectedMovieTitles = updatedSelectedMovies.map((id) => {
-          const movie = movies.find((movie) => movie.id === id);
-          return movie;
-        }).filter(Boolean);
+  //       // Update the titles of the selected movies and pass them to onMoviesChange
+  //       const selectedMovieTitles = updatedSelectedMovies.map((id) => {
+  //         const movie = movies.find((movie) => movie.id === id);
+  //         return movie;
+  //       }).filter(Boolean);
   
-        onMoviesChange(selectedMovieTitles); // Call with selected movie titles
+  //       onMoviesChange(selectedMovieTitles); // Call with selected movie titles
   
-        return updatedSelectedMovies;
-    });
-  };
+  //       return updatedSelectedMovies;
+  //   });
+  // };
 
   return (
-    <div>
-      <ListGroup>
-        {movies.map(({ id, title }) => (
-          <ListGroup.Item key={id}>
-            <Form.Check
-              type="checkbox"
-              checked={selectedMovies.includes(id)}
-              onChange={() => handleSelectMovie(id)}
-              inline
-            />
-            {title}
-            <Button 
-              variant="danger" 
-              size="sm" 
-              className="float-right" 
-              onClick={() => handleRemoveMovie(id)}
-            >
-              Remove
-            </Button>
-          </ListGroup.Item>
+      <div>
+        <div style={{marginBottom: "20px", gap: "10px"}} className="d-flex flex-wrap" >
+          {movies.map(({ id, title }) => (
+          <div 
+            key={id} 
+            className={`d-flex align-items-center movie-item ${isSelected(title) ? 'selected' : ''}`} 
+            onClick={() => toggleSelectMovie(title)}
+            style={{ borderRadius: "10%", padding: '5px 10px', border: '1px solid #dee2e6', borderRadius: '4px' 
+            }}
+          >
+          {title}
+          <Button 
+            variant="secondary" 
+            size="sm" 
+            style={{ marginLeft: 'auto', backgroundColor: 'transparent', border: 'none', color: 'gray' }} 
+            onClick={(e) => {
+              e.stopPropagation();  // Prevent triggering the item selection
+              handleRemoveMovie(title);
+            }}
+          >
+            X
+          </Button>
+        </div>
         ))}
-      </ListGroup>
+      </div>
       <FormControl
         type="text"
         placeholder="Add a movie"
         value={newMovie}
+        style={{width: "50%", margin: "auto"}}
         onChange={(e) => setNewMovie(e.target.value)}
       />
-      <Button variant="primary" onClick={handleAddMovie} className="mt-2">
+      <Button variant="secondary"  style={{margin: "auto", border:"none", backgroundColor: "#aeaeae"}} onClick={handleAddMovie} className="mt-2">
         Add Movie
       </Button>
 
