@@ -12,12 +12,16 @@ function App() {
   return (
     
    <>
-     <div style={{position:"fixed", right:"10px", top:"5px"}}>
-        <p>Welcome, {user.name}!</p>
-        <button onClick={() => logout()}>
-            Log Out
-        </button>
-      </div>
+    {isAuthenticated && 
+      <div style={{position:"fixed", right:"10px", top:"5px"}}>
+       
+      <p>Welcome, {user.name}!</p>
+      <button onClick={() => logout()}>
+          Log Out
+      </button>
+    </div>
+    }
+
        <h1 className="my-4" style={{textAlign: "center"}}>Movie Masters</h1>
       
       {error && <div>Oops... {error.message}</div>}
