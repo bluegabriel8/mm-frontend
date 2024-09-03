@@ -104,7 +104,7 @@ function MovieList({ onMoviesChange }) {
         </div>
         ))}
       </div>
-      <div style={{marginTop: "20px", marginRight: "auto", marginLeft: "auto" ,width: "80%", backgroundColor: "#eeeeee", borderRadius: "2%", paddingTop: "20px"}}>
+      <div style={{marginTop: "20px", marginRight: "auto", marginLeft: "auto" ,width: "80%", backgroundColor: "#eeeeee", borderRadius: "2%", paddingBottom: "10px", paddingTop: "20px"}}>
       <FormControl
         type="text"
         placeholder="What have you seen recently?"

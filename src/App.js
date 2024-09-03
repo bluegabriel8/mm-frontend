@@ -12,8 +12,8 @@ function App() {
   return (
     
    <>
-    {isAuthenticated && 
-      <div style={{position:"fixed", right:"10px", top:"5px"}}>
+    {isAuthenticated &&  
+      <div style={{position:"relative", marginRight:"20px", textAlign:"right", top:"5px"}}>
        
       <p>Welcome, {user.name}!</p>
       <button onClick={() => logout()}>
@@ -26,7 +26,7 @@ function App() {
       
       {error && <div>Oops... {error.message}</div>}
       {!error && isLoading && <div>Loading...</div>}
-      {isAuthenticated ? (
+      {isAuthenticated && !isLoading ? (
         <Container> 
           
           
@@ -38,11 +38,15 @@ function App() {
             
       ) : (
         <>
+        {!isLoading &&
+        <>
         <p>Movie Masters is dedicated to bringing you fresh recommendations for movies. Simply enter as many movies as you like and select the ones you would like to use to influence the algorithm.
           They can be movies you love, hate, or feel indifferent about. We'll take your list and find the perfect movie for you to watch next. 
           Log in, or register to get started!
         </p>
         <button onClick={loginWithRedirect}>Log in</button>
+        </>
+      }
         </>
       )}
     </>
