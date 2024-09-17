@@ -21,7 +21,7 @@ function Recommendations({ movies }) {
     for (const movie of recommendations) {
       if (!movieDetails[movie]) { // Only fetch if not already in state
         try {
-          const response = await fetch(`http://www.omdbapi.com/?apikey=d7c19372&t=${encodeURIComponent(movie)}`);
+          const response = await fetch(`https://www.omdbapi.com/?apikey=d7c19372&t=${encodeURIComponent(movie)}`);
           const data = await response.json();
           if (data.Response === 'True') {
             updatedDetails[movie] = data.Plot; // Store the movie description
