@@ -15,7 +15,8 @@ root.render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={"https://bluegabriel8.github.io/mm-frontend/"}
+      // redirectUri={"https://bluegabriel8.github.io/mm-frontend/"}
+      redirectUri={window.location.origin}
       >
       <App />
     </Auth0Provider>

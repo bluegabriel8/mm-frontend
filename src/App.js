@@ -29,8 +29,9 @@ function App() {
       {isAuthenticated && !isLoading ? (
         <Container> 
           
-          
-          <h4>Movies</h4>
+          {selectedMovies.length > 0 && 
+          <h4>Select Movies</h4>
+          }
           <MovieList onMoviesChange={setSelectedMovies} />
           <Recommendations movies={selectedMovies} />
           

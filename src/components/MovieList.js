@@ -9,6 +9,7 @@ function MovieList({ onMoviesChange }) {
   const [newMovie, setNewMovie] = useState('');
   const [selectedMovies, setSelectedMovies] = useState([]); // State for selected movies
   const { user, isAuthenticated } = useAuth0();
+  const [movieDetails, setMovieDetails] = useState({});
   
 
   useEffect(() => {
@@ -17,6 +18,7 @@ function MovieList({ onMoviesChange }) {
       setMovies(response.data);
       onMoviesChange(response.data); // Call onMoviesChange with the updated movies
     });
+
   }, [isAuthenticated]);
 
 
@@ -36,6 +38,9 @@ function MovieList({ onMoviesChange }) {
   
         onMoviesChange(selectedMovieTitles); // Call with selected movie titles
   
+        if (selectedMovieTitles.length === 0) {
+          onMoviesChange(movies); // Call with all movies if none are selected
+        }
         return updatedSelectedMovies;
     });
   };
@@ -49,6 +54,9 @@ function MovieList({ onMoviesChange }) {
       setMovies(updatedMovies);
       onMoviesChange(updatedMovies);
       setNewMovie('');
+      if (selectedMovies.length === 0) {
+        onMoviesChange([...selectedMovies, newMovieObj]);
+      }
     });
   };
 
@@ -59,24 +67,6 @@ function MovieList({ onMoviesChange }) {
       onMoviesChange(updatedMovies);
     });
   };
-
-  // const handleSelectMovie = (id) => {
-  //   setSelectedMovies((prevSelectedMovies) => {
-  //       const updatedSelectedMovies = prevSelectedMovies.includes(id)
-  //         ? prevSelectedMovies.filter((movieId) => movieId !== id)
-  //         : [...prevSelectedMovies, id];
-  
-  //       // Update the titles of the selected movies and pass them to onMoviesChange
-  //       const selectedMovieTitles = updatedSelectedMovies.map((id) => {
-  //         const movie = movies.find((movie) => movie.id === id);
-  //         return movie;
-  //       }).filter(Boolean);
-  
-  //       onMoviesChange(selectedMovieTitles); // Call with selected movie titles
-  
-  //       return updatedSelectedMovies;
-  //   });
-  // };
 
   return (
       <div>
