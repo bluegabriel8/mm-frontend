@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'https://mm-backend-65bca4ab93dd.herokuapp.com/';
 
 export const getMovies = (userEmail) => {
     return axios.get(`${API_BASE_URL}/movies`, {
